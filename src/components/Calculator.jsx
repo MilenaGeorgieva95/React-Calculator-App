@@ -3,84 +3,58 @@ import Screen from "./Screen";
 import { useState } from "react";
 
 export default function Calculator() {
-  const [resultArr, updateResultArr] = useState([]);
-  const [num, setNum] = useState("");
+  const [isFirstNum, setIsFirstNum] = useState(true);
+  const [firstNum, setFirstNum] = useState("");
+  const [secondNum, setSecondNum] = useState("");
+  const [operator, setOperator] = useState("");
+  const [value, setValue] = useState("0");
+  const numsArr = ["00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
+  const operatorsArr = ["/", "*", "+", "-"];
 
   const clickButton = (event) => {
     const btnText = event.target.textContent;
 
-    switch (btnText) {
-      case "C":
-        updateResultArr((arr) => (arr = []));
-        break;
-      case "*":
-        if (resultArr.length === 0) {
-          console.log(resultArr);
-          console.log(num);
+    if (numsArr.includes(btnText) && isFirstNum === true) {
+      setFirstNum(firstNum + btnText);
+      setValue(firstNum + btnText);
+    } else if (numsArr.includes(btnText)) {
+      setSecondNum(secondNum + btnText);
+      setValue(secondNum + btnText);
+    } else if (operatorsArr.includes(btnText)) {
+      setOperator(btnText);
+      setIsFirstNum(false);
+    } else if (btnText === "C") {
+      setFirstNum("");
+      setSecondNum("");
+      setValue("0");
+      setOperator("");
+    } else if (btnText === "=") {
+      let total = 0;
 
-          updateResultArr((arr) => (arr[0] = num));
-          setNum("");
-        } else if (resultArr.length === 1) {
-          const total = Number(resultArr[0]) * Number(num);
-          console.log(num);
-          setNum(total);
-          console.log(num);
-        }
-
-        break;
-      case "/":
-        setNum("");
-        break;
-      case "+":
-        setNum("");
-        break;
-      case "-":
-        setNum("");
-        break;
-      case "=":
-        setNum("");
-        break;
-
-      case "00":
-        setNum(num + "00");
-        break;
-      case "0":
-        setNum(num + "0");
-        break;
-      case "1":
-        setNum(num + "1");
-        break;
-      case "2":
-        setNum(num + "2");
-        break;
-      case "3":
-        setNum(num + "3");
-        break;
-      case "4":
-        setNum(num + "4");
-        break;
-      case "5":
-        setNum(num + "5");
-        break;
-      case "6":
-        setNum(num + "6");
-        break;
-      case "7":
-        setNum(num + "7");
-        break;
-      case "8":
-        setNum(num + "8");
-        break;
-      case "9":
-        setNum(num + "9");
-        break;
+      switch (operator) {
+        case "*":
+          total = Number(firstNum) * Number(secondNum);
+          break;
+        case "/":
+          total = Number(firstNum) / Number(secondNum);
+          break;
+        case "+":
+          total = Number(firstNum) + Number(secondNum);
+          break;
+        case "-":
+          total = Number(firstNum) - Number(secondNum);
+          break;
+      }
+      setFirstNum(total);
+      setSecondNum("");
+      setIsFirstNum(true);
+      setValue(total);
     }
-    console.log(num);
   };
 
   return (
     <div name="calc" className="calculator" onClick={clickButton}>
-      <Screen />
+      <Screen value={value} />
       <SquareButton text="C" extraClass="clear" />
       <SquareButton text="/" />
       <SquareButton text="*" />
