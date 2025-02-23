@@ -1,5 +1,5 @@
 {
-  "name": "react-js-calculator",
+  "name": "react-calculator-app",
   "private": true,
   "version": "0.0.0",
   "homepage": "https://MilenaGeorgieva95.github.io/React-Calculator-App",
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.0.0",
